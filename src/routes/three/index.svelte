@@ -10,18 +10,13 @@
 
 <div class="bg-black">
   <ModelDisplayer
-    modelName="scene.gltf"
+    modelName="fox.gltf"
     modelSize={0}
     modelId="scene"
     modelLight={1} />
   <ModelDisplayer
-    modelName="scene_baseballglove_2.glb"
+    modelName="tire.gltf"
     modelSize={2}
     modelId="baseballglove2"
-    modelLight={3} />
-  <ModelDisplayer
-    modelName="scene_baseballglove_0.glb"
-    modelSize={2}
-    modelId="baseballglove2"
-    modelLight={3} />
+    modelLight={1} />
 </div>
