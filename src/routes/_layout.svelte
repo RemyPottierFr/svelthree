@@ -1,6 +1,5 @@
 <script>
   import Nav from "../components/Nav.svelte";
-
   export let segment;
 </script>
 
@@ -8,13 +7,14 @@
   main {
     position: relative;
     background-color: white;
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
   }
 </style>
 
 <Nav {segment} />
 
-<main>
+<main class="relative">
   <slot />
 </main>
