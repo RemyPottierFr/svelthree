@@ -2,11 +2,17 @@
   import * as THREE from "three";
   import { onMount } from "svelte";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
   export let modelName;
   export let modelSize;
   export let modelId;
   export let modelLight;
+  export let modelAnimate;
+  export let animationSpeed;
+  export let axes;
+  export let sceneWidth;
+  export let sceneHeight;
 
   onMount(() => {
     // Setup scene
@@ -20,7 +26,7 @@
 
     // Setup renderer
     let renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(sceneWidth, sceneHeight);
     renderer.setClearColor(0xffffff, 0);
 
     // Setup ambiant light
@@ -29,11 +35,13 @@
     light.castShadow = false; // soft white light
     scene.add(light);
 
-    //Add axes
-    var axesHelper = new THREE.AxesHelper(
-      modelSize === 0 ? 5 : modelSize === 1 ? 100 : modelSize === 2 ? 500 : 0
-    );
-    scene.add(axesHelper);
+    if (axes) {
+      //Add axes
+      var axesHelper = new THREE.AxesHelper(
+        modelSize === 0 ? 5 : modelSize === 1 ? 100 : modelSize === 2 ? 500 : 0
+      );
+      scene.add(axesHelper);
+    }
 
     // Append to container
     const el = document.getElementById(modelId);
@@ -52,7 +60,7 @@
       function(gltf) {
         scene.add(gltf.scene);
         if (modelSize === 0) {
-          camera.position.set(20, 10, 15);
+          camera.position.set(18, 9, 13);
         } else if (modelSize === 1) {
           camera.position.set(100, 70, 70);
         } else if (modelSize === 2) {
@@ -60,9 +68,21 @@
         }
 
         camera.lookAt(gltf.scene.position);
+        if (!modelAnimate) {
+          const controls = new OrbitControls(camera, renderer.domElement);
+        }
         let animate = function() {
           requestAnimationFrame(animate);
-          gltf.scene.rotation.y += 0.003;
+          if (modelAnimate) {
+            gltf.scene.rotation.y +=
+              animationSpeed === 1
+                ? 0.003
+                : animationSpeed === 2
+                ? 0.01
+                : animationSpeed === 3
+                ? 0.1
+                : 0;
+          }
           renderer.render(scene, camera);
         };
 
@@ -79,8 +99,7 @@
 
 <style>
   #three {
-    width: 100%;
-    height: 100vh;
+    display: inline;
   }
 </style>
 
