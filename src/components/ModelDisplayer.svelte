@@ -11,7 +11,7 @@
   export let modelAnimate;
   export let animationSpeed;
   export let axes;
-  let processDone = false;
+  var processDone = false;
 
   const initDisplayer = node => {
     const sceneDimentions = node.parentNode.offsetWidth;
@@ -44,12 +44,6 @@
     const el = document.getElementById(modelId);
     el.appendChild(renderer.domElement);
 
-    // Render model
-    function render() {
-      renderer.render(scene, camera);
-      processDone = true;
-    }
-
     // Start loader of model
     let loader = new GLTFLoader();
 
@@ -80,6 +74,7 @@
                 : 0;
           }
           renderer.render(scene, camera);
+          processDone = true;
         };
 
         animate();
@@ -93,23 +88,10 @@
   };
 </script>
 
-<style>
-  .loader {
-    padding-top: 100%;
-  }
-  .loader-image {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-</style>
-
-<div id={modelId} use:initDisplayer />
-{#if !processDone}
-  <div class="w-full relative loader">
-    <img
-      src="/images/copper-loader.gif"
-      class="absolute loader-image"
-      alt="copper loader" />
-  </div>
-{/if}
+<div id={modelId} use:initDisplayer>
+  {#if !processDone}
+    <div class="w-full relative text-center">
+      <img src="/images/copper-loader.gif" class="m-auto" alt="copper loader" />
+    </div>
+  {/if}
+</div>
