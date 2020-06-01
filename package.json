@@ -7,11 +7,12 @@
   },
   "scripts": {
     "watch:tailwind": "TAILWIND=true postcss src/styles/tailwind.css -o static/global.css -w",
+    "tailwind": "TAILWIND=true postcss src/styles/tailwind.css -o __sapper__/build/static/global.css",
     "sapper": "sapper dev",
     "dev": "run-p --race watch:tailwind sapper",
     "build": "sapper build --legacy",
     "export": "sapper export --legacy",
-    "start": "node __sapper__/build",
+    "start": "tailwind && node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run"
