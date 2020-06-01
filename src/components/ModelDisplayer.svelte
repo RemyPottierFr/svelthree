@@ -11,6 +11,7 @@
   export let modelAnimate;
   export let animationSpeed;
   export let axes;
+  export let position;
   var processDone = false;
 
   const initDisplayer = node => {
@@ -58,6 +59,11 @@
         }
 
         camera.lookAt(gltf.scene.position);
+
+        if (position) {
+          gltf.scene.position.set(position.x, position.y, position.z);
+        }
+
         if (!modelAnimate) {
           const controls = new OrbitControls(camera, renderer.domElement);
         }
@@ -73,6 +79,11 @@
                 ? 0.1
                 : 0;
           }
+          if (position) {
+            gltf.scene.position.set(position.x, position.y, position.z);
+            // gltf.scene.matrix = inverse;
+          }
+          gltf.scene.matrixWorldNeedsUpdate = true;
           renderer.render(scene, camera);
           processDone = true;
         };
