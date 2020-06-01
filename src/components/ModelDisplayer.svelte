@@ -11,6 +11,7 @@
   export let modelAnimate;
   export let animationSpeed;
   export let axes;
+  let processDone = false;
 
   const initDisplayer = node => {
     const sceneDimentions = node.parentNode.offsetWidth;
@@ -46,6 +47,7 @@
     // Render model
     function render() {
       renderer.render(scene, camera);
+      processDone = true;
     }
 
     // Start loader of model
@@ -92,9 +94,22 @@
 </script>
 
 <style>
-  #three {
-    display: inline;
+  .loader {
+    padding-top: 100%;
+  }
+  .loader-image {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>
 
 <div id={modelId} use:initDisplayer />
+{#if !processDone}
+  <div class="w-full relative loader">
+    <img
+      src="/images/copper-loader.gif"
+      class="absolute loader-image"
+      alt="copper loader" />
+  </div>
+{/if}
