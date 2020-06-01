@@ -21,7 +21,7 @@
       <h1
         class="p-8 md:p-0 text-4xl md:text-5xl text-white font-bold font-mono
         header-title">
-        Montrez vos créations en détails {position.x}
+        Montrez vos créations en détails
       </h1>
       <p class="p-8 text-2xl text-white font-mono">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, nemo
