@@ -11,22 +11,18 @@
   export let modelAnimate;
   export let animationSpeed;
   export let axes;
-  export let sceneWidth;
-  export let sceneHeight;
 
-  onMount(() => {
+  const initDisplayer = node => {
+    const sceneDimentions = node.parentNode.offsetWidth;
+    console.log(sceneDimentions);
     // Setup scene
     let scene = new THREE.Scene();
-    let camera = new THREE.PerspectiveCamera(
-      30,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
+    let camera = new THREE.PerspectiveCamera(30, 1, 1, 10000);
+    camera.aspect = window.innerWidth / window.innerHeight;
 
     // Setup renderer
     let renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(sceneWidth, sceneHeight);
+    renderer.setSize(sceneDimentions, sceneDimentions);
     renderer.setClearColor(0xffffff, 0);
 
     // Setup ambiant light
@@ -59,12 +55,10 @@
       `models/${modelName}`,
       function(gltf) {
         scene.add(gltf.scene);
-        if (modelSize === 0) {
-          camera.position.set(18, 9, 13);
-        } else if (modelSize === 1) {
-          camera.position.set(100, 70, 70);
-        } else if (modelSize === 2) {
-          camera.position.set(600, 400, 400);
+        if (modelSize !== 0) {
+          camera.position.set(20 * modelSize, 10 * modelSize, 15 * modelSize);
+        } else {
+          camera.position.set(20, 10, 15);
         }
 
         camera.lookAt(gltf.scene.position);
@@ -94,7 +88,7 @@
         console.log(error);
       }
     );
-  });
+  };
 </script>
 
 <style>
@@ -103,4 +97,4 @@
   }
 </style>
 
-<div id={modelId} />
+<div id={modelId} use:initDisplayer />
